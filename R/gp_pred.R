@@ -85,7 +85,7 @@ NULL
 
 #' @rdname pred
 #' @export
-gp_pred <- function(gp, xnew, var = FALSE, quantiles = NULL, transform = FALSE, cfind = NULL, 
+gp_pred <- function(gp, xnew, cov = FALSE, var = FALSE, quantiles = NULL, transform = FALSE, cfind = NULL, 
                     jitter = NULL, quad_order = 15, ...) {
   if (!is.null(quantiles) || transform) {
     # we need variances in order to compute the quantiles, or to transform the mean
@@ -94,10 +94,10 @@ gp_pred <- function(gp, xnew, var = FALSE, quantiles = NULL, transform = FALSE, 
 
   if (!is_fitted(gp, "analytic")) {
     # model not fitted, so predict based on the prior
-    pred <- gp_pred_prior(gp, xnew, var = var, cfind = cfind, jitter = jitter)
+    pred <- gp_pred_prior(gp, xnew, cov = cov, var = var, cfind = cfind, jitter = jitter)
   } else {
     # model fitted using analytical approximation
-    pred <- gp_pred_post(gp, xnew, var = var, cfind = cfind, jitter = jitter)
+    pred <- gp_pred_post(gp, xnew, cov = cov, var = var, cfind = cfind, jitter = jitter)
   }
   pred$mean <- add_offset(pred$mean, ...)
   
